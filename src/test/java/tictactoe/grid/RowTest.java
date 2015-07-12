@@ -23,17 +23,6 @@ public class RowTest {
         assertThat(row.isWinningRow(), is(false));
     }
 
-    @Test
-    public void identifiesARowIsAllVacant() {
-        Row row = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NO_OFFSET).build();
-        assertThat(row.isVacant(), is(true));
-    }
-
-    @Test
-    public void identifiesARowIsNotAllVacant() {
-        Row row = aRowBuilder().withHorizontalRow(O, VACANT, VACANT, NO_OFFSET).build();
-        assertThat(row.isVacant(), is(false));
-    }
 
     @Test
     public void identifiesIfPositionIsVacant() {

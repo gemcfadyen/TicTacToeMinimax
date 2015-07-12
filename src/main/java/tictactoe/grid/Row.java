@@ -1,11 +1,8 @@
 package tictactoe.grid;
 
 import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import tictactoe.Symbol;
 
-import java.util.Iterator;
 import java.util.List;
 
 import static com.google.common.collect.Iterables.all;
@@ -13,7 +10,6 @@ import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.collect.Lists.newArrayList;
 import static tictactoe.Symbol.VACANT;
-import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 
 public class Row {
     protected static final int FIRST_CELL_INDEX = 0;
@@ -29,7 +25,6 @@ public class Row {
     }
 
     public List<Cell> getCells() {
-//        return cells.toArray(new Cell[NUMBER_OF_CELLS_IN_ROW]);
         return cells;
     }
 
@@ -52,15 +47,6 @@ public class Row {
     public boolean isVacantAt(int offset) {
         Cell cellWithOffset = getCellWithOffset(offset);
         return cellWithOffset.getSymbol() == VACANT;
-    }
-
-    public boolean isVacant() {
-        return all(cells, checkAllCellsHaveTheSame(VACANT));
-    }
-
-    public List<Cell> getVacantCells() {
-        Iterable<Cell> vacantCells = filter(cells, cell -> cell.getSymbol() == VACANT);
-        return Lists.newArrayList(vacantCells);
     }
 
     public void reset() {

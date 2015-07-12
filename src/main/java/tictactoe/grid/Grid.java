@@ -28,15 +28,6 @@ public class Grid {
         this.bottomRow = bottomRow;
     }
 
-    public boolean isEmpty() {
-        boolean allEmpty = true;
-        List<Row> horizontalRows = horizontalRows(topRow, middleRow, bottomRow);
-        for (Row horizontalRow : horizontalRows) {
-            allEmpty = allEmpty && horizontalRow.isVacant();
-        }
-        return allEmpty;
-    }
-
     public boolean isEmptyAt(int offset) {
         Row row = determineRowFrom(offset);
         return row.isVacantAt(offset);
@@ -53,9 +44,7 @@ public class Grid {
 
     public void update(int offset, Symbol symbol) {
         Row row = determineRowFrom(offset);
-//        if (row.getCellWithOffset(offset).getSymbol() == VACANT) {
         row.putSymbolAt(offset, symbol);
-//        }
     }
 
 

@@ -1,7 +1,6 @@
 
 package tictactoe.player;
 
-import com.google.common.base.Predicate;
 import tictactoe.Symbol;
 import tictactoe.grid.Cell;
 import tictactoe.grid.Grid;
@@ -22,6 +21,10 @@ public class AutomatedPlayer implements Player {
     private static final int MIN_PLAYER_WINNING_SCORE = -10;
     private static final int DRAW_SCORE = 0;
 
+    private static final int MIN_PLAYERS_STARTING_SCORE = 100;
+    private static final int MAX_PLAYERS_STARTING_SCORE = -100;
+    private static final int DEFAULT_CELL_OFFSET = -1;
+
     private final Symbol symbol;
     private final Prompt prompt;
 
@@ -37,6 +40,7 @@ public class AutomatedPlayer implements Player {
                 getNumberOfVacantCells(grid.rows()),
                 isMaxPlayer);
 
+        prompt.display(symbol, move.getPosition());
         return move.getPosition();
     }
 
@@ -77,6 +81,10 @@ public class AutomatedPlayer implements Player {
         return allVacantCells;
     }
 
+    private boolean isZero(int depth) {
+        return depth == 0;
+    }
+
     private int calculateScore(Grid grid, int depth) {
         GameStatus gameStatus = grid.evaluateWinningStatus();
 
@@ -92,17 +100,13 @@ public class AutomatedPlayer implements Player {
         return symbol.equals(X) ? O : X;
     }
 
-    private boolean isZero(int depth) {
-        return depth == 0;
-    }
-
     private Score calculateBestMoveFrom(List<Score> scores, boolean isMaxPlayer) {
         return isMaxPlayer ? max(scores) : min(scores);
     }
-    
+
     private Score max(List<Score> scores) {
-        int maxScore = -100;
-        int bestMoveForMaxPlayer = -1;
+        int maxScore = MAX_PLAYERS_STARTING_SCORE;
+        int bestMoveForMaxPlayer = DEFAULT_CELL_OFFSET;
         for (Score score : scores) {
             if (score.getScore() > maxScore) {
                 maxScore = score.getScore();
@@ -113,7 +117,7 @@ public class AutomatedPlayer implements Player {
     }
 
     private Score min(List<Score> scores) {
-        int minScore = 100;
+        int minScore = MIN_PLAYERS_STARTING_SCORE;
         int bestMoveForMinPlayer = -1;
 
         for (Score score : scores) {
@@ -124,7 +128,6 @@ public class AutomatedPlayer implements Player {
         }
         return new Score(bestMoveForMinPlayer, minScore);
     }
-
 }
 
 class Score {

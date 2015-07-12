@@ -28,6 +28,11 @@ public class AutomatedPlayerTest {
     }
 
     @Test
+    public void playerHasCorrectSymbol() {
+        assertThat(automatedPlayer.getSymbol(), is(X));
+    }
+
+    @Test
     public void takesWinningMoveInTopRow() {
         Grid grid = new Grid(
                 aRowBuilder().withHorizontalRow(X, X, VACANT, 0).build(),

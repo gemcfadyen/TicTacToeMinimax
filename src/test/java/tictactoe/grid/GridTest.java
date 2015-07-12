@@ -18,7 +18,6 @@ import static tictactoe.grid.RowBuilder.aRowBuilder;
 
 public class GridTest {
     private static final int NO_OFFSET = 0;
-    private static final int MIDDLE_ROW_INDEX = 1;
     private static final int BOTTOM_ROW_INDEX = 2;
 
     private Grid grid;
@@ -33,11 +32,6 @@ public class GridTest {
     }
 
     @Test
-    public void identifiesThatGridIsNotEmpty() {
-        assertThat(grid.isEmpty(), is(false));
-    }
-
-    @Test
     public void updateGridAtGivenIndex() {
         grid.update(6, X);
 
@@ -48,15 +42,21 @@ public class GridTest {
         assertThat(updatedCell.getSymbol(), is(equalTo(X)));
     }
 
-    @Test
-    public void resetGridToEmpty() {
-        grid.reset();
-        assertThat(grid.isEmpty(), is(true));
-    }
-
     @Test(expected = NoSuchElementException.class)
     public void exceptionThrownIfOffsetIsOutOfRange() {
         grid.update(10, X);
+    }
+
+    @Test
+    public void resetGridToEmpty() {
+        Row top = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NO_OFFSET).build();
+        Row middle = aRowBuilder().withHorizontalRow(X, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
+        Row bottom = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
+
+        Grid gridWithOneCellOccupied = new Grid(top, middle, bottom);
+        gridWithOneCellOccupied.reset();
+
+        assertThat(gridWithOneCellOccupied.isEmptyAt(3), is(true));
     }
 
     private Cell getCellWithOffset(Row row, int offset) {
