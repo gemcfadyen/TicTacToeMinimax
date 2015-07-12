@@ -49,14 +49,6 @@ public class GridTest {
     }
 
     @Test
-    public void noUpdateToGridIsMadeWhenCellIsNotVacant() {
-        grid.update(3, O);
-
-        Cell updatedCell = getCellWithOffset(getSpecifiedRow(grid.rows(), MIDDLE_ROW_INDEX), 3);
-        assertThat(updatedCell.getSymbol(), is(equalTo(X)));
-    }
-
-    @Test
     public void resetGridToEmpty() {
         grid.reset();
         assertThat(grid.isEmpty(), is(true));

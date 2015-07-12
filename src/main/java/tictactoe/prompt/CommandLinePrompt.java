@@ -76,6 +76,7 @@ public class CommandLinePrompt implements Prompt {
     private StringBuffer prints(Row row) {
         StringBuffer gridDisplay = new StringBuffer();
         gridDisplay.append(" | ");
+
         for (Cell cell : row.getCells()) {
             if (cell.getSymbol() == VACANT) {
                 gridDisplay.append("(" + cell.getOffset() + ")");

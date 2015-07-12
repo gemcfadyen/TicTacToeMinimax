@@ -1,8 +1,11 @@
 package tictactoe.grid;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import tictactoe.Symbol;
 
+import java.util.Iterator;
 import java.util.List;
 
 import static com.google.common.collect.Iterables.all;
@@ -25,8 +28,9 @@ public class Row {
         return cells.get(index).getSymbol();
     }
 
-    public Cell[] getCells() {
-        return cells.toArray(new Cell[NUMBER_OF_CELLS_IN_ROW]);
+    public List<Cell> getCells() {
+//        return cells.toArray(new Cell[NUMBER_OF_CELLS_IN_ROW]);
+        return cells;
     }
 
     public boolean isWinningRow() {
@@ -52,6 +56,11 @@ public class Row {
 
     public boolean isVacant() {
         return all(cells, checkAllCellsHaveTheSame(VACANT));
+    }
+
+    public List<Cell> getVacantCells() {
+        Iterable<Cell> vacantCells = filter(cells, cell -> cell.getSymbol() == VACANT);
+        return Lists.newArrayList(vacantCells);
     }
 
     public void reset() {

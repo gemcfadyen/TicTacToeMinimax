@@ -5,7 +5,6 @@ import tictactoe.grid.status.GameStatus;
 
 import java.util.List;
 
-import static tictactoe.Symbol.VACANT;
 import static tictactoe.grid.Row.FIRST_CELL_INDEX;
 import static tictactoe.grid.RowGenerator.generateRowsForAllDirections;
 import static tictactoe.grid.RowGenerator.horizontalRows;
@@ -54,10 +53,11 @@ public class Grid {
 
     public void update(int offset, Symbol symbol) {
         Row row = determineRowFrom(offset);
-        if (row.getCellWithOffset(offset).getSymbol() == VACANT) {
-            row.putSymbolAt(offset, symbol);
-        }
+//        if (row.getCellWithOffset(offset).getSymbol() == VACANT) {
+        row.putSymbolAt(offset, symbol);
+//        }
     }
+
 
     public List<Row> rows() {
         return horizontalRows(topRow, middleRow, bottomRow);
