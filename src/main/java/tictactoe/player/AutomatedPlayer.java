@@ -1,5 +1,6 @@
 package tictactoe.player;
 
+
 import tictactoe.Symbol;
 import tictactoe.grid.Grid;
 import tictactoe.player.gameplan.Block;
@@ -11,7 +12,6 @@ import tictactoe.player.gameplan.cornermoves.TakeOppositeCornerToOpponent;
 import tictactoe.player.gameplan.cornermoves.TopLeftCorner;
 import tictactoe.player.gameplan.forking.BlockOpponentFormingCornerTrapFork;
 import tictactoe.player.gameplan.forking.BlockOpponentFormingForksInRows;
-import tictactoe.player.gameplan.forking.ForkFormationFromBottomRowWhenCentreIsVacant;
 import tictactoe.player.gameplan.forking.ForkFormationFromTopRowWhenCentreIsVacant;
 import tictactoe.player.gameplan.forking.ForkFormationInDiagonalsWhenCentreIsVacant;
 import tictactoe.player.gameplan.forking.ForkFormationInVerticalRowsWhenCentreIsVacant;
@@ -62,7 +62,6 @@ public class AutomatedPlayer implements Player {
                 new ForkFormationWhenCentreCellIsOccupied(),
                 new ForkFormationFromTopRowWhenCentreIsVacant(),
                 new ForkFormationInVerticalRowsWhenCentreIsVacant(),
-//                new ForkFormationFromBottomRowWhenCentreIsVacant(),
                 new ForkFormationInDiagonalsWhenCentreIsVacant(),
 
                 new TakeCentreMove(),
