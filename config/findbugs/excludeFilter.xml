@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <Match>
+        <Field type="java.util.Map" />
+        <Bug pattern="SE_BAD_FIELD" />
+    </Match>
+    <Match>
+        <Field type="java.util.Set" />
+        <Bug pattern="SE_BAD_FIELD" />
+    </Match>
+    <Match>
+        <Field type="java.util.List" />
+        <Bug pattern="SE_BAD_FIELD" />
+    </Match>
+    <Match>
+        <Bug pattern="DM_CONVERT_CASE" />
+    </Match>
+    <Match>
+        <Bug pattern="DM_CONVERT_CASE" />
+    </Match>
+    <Match>
+        <Bug pattern="NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE" />
+    </Match>
+    <Match>
+        <Bug pattern="SE_NO_SERIALVERSIONID" />
+    </Match>
+</FindBugsFilter>

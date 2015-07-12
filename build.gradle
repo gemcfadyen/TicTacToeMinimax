@@ -1,0 +1,77 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+apply plugin: 'findbugs'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'application'
+mainClassName = 'tictactoe.Game'
+
+version = '1.0'
+sourceCompatibility = 1.8
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'com.google.guava:guava:18.0'
+
+    testCompile 'junit:junit:4.+'
+    testCompile 'org.mockito:mockito-all:1.8.5'
+    testCompile 'org.hamcrest:hamcrest-all:1.1'
+    testCompile 'log4j:log4j:1.2.17'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+checkstyle {
+    configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+    configProperties = [suppressionsFile: rootProject.file('config/checkstyle/suppressions.xml')]
+    toolVersion = '6.6'
+}
+
+findbugs {
+    ignoreFailures = false
+    toolVersion = '3.0.1'
+    sourceSets = [sourceSets.main, sourceSets.test]
+    reportsDir = file("$project.buildDir/reports/findbugs")
+    effort = 'max'
+
+    includeFilter = file("$rootProject.projectDir/config/findbugs/includeFilter.xml")
+    excludeFilter = file("$rootProject.projectDir/config/findbugs/excludeFilter.xml")
+}
+
+findbugsTest {
+    enabled = true
+}
+
+pmd {
+    ignoreFailures = false
+    sourceSets = [sourceSets.main, sourceSets.test]
+    ruleSetFiles = files("$rootProject.projectDir/config/pmd/ruleSets.xml")
+    reportsDir = file("$project.buildDir/reports/pmd")
+    toolVersion = '5.0.5'
+}
+
+run {
+    standardInput = System.in
+}
