@@ -22,5 +22,4 @@ public class Cell {
     public void setSymbol(Symbol symbol) {
         this.symbol = symbol;
     }
-
 }

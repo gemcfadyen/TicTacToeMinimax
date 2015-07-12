@@ -118,7 +118,7 @@ public class AutomatedPlayer implements Player {
 
     private Score min(List<Score> scores) {
         int minScore = MIN_PLAYERS_STARTING_SCORE;
-        int bestMoveForMinPlayer = -1;
+        int bestMoveForMinPlayer = DEFAULT_CELL_OFFSET;
 
         for (Score score : scores) {
             if (score.getScore() < minScore) {

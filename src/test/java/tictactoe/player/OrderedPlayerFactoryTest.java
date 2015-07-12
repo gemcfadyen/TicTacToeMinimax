@@ -27,5 +27,4 @@ public class OrderedPlayerFactoryTest {
 
         assertThat(orderedPlayers[FIRST_PLAYER_INDEX], is(HumanPlayer.class));
     }
-
 }

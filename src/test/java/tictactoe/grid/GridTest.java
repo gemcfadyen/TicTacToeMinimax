@@ -3,11 +3,9 @@ package tictactoe.grid;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.VACANT;
@@ -18,7 +16,6 @@ import static tictactoe.grid.RowBuilder.aRowBuilder;
 
 public class GridTest {
     private static final int NO_OFFSET = 0;
-    private static final int BOTTOM_ROW_INDEX = 2;
 
     private Grid grid;
 
@@ -35,11 +32,7 @@ public class GridTest {
     public void updateGridAtGivenIndex() {
         grid.update(6, X);
 
-        Row bottomRow = getSpecifiedRow(grid.rows(), BOTTOM_ROW_INDEX);
-        Cell updatedCell = getCellWithOffset(bottomRow, 6);
-
         assertThat(grid.isEmptyAt(6), is(false));
-        assertThat(updatedCell.getSymbol(), is(equalTo(X)));
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -57,13 +50,5 @@ public class GridTest {
         gridWithOneCellOccupied.reset();
 
         assertThat(gridWithOneCellOccupied.isEmptyAt(3), is(true));
-    }
-
-    private Cell getCellWithOffset(Row row, int offset) {
-        return row.getCellWithOffset(offset);
-    }
-
-    private Row getSpecifiedRow(List<Row> rows, int rowIndex) {
-        return rows.get(rowIndex);
     }
 }
