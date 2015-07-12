@@ -1,8 +1,8 @@
 # TicTacToe 
 
-[![Build Status]([![Build Status](https://travis-ci.org/gemcfadyen/TicTacToeMinimax.svg)](https://travis-ci.org/gemcfadyen/TicTacToeMinimax)]
+[![Build Status](https://travis-ci.org/gemcfadyen/TicTacToeMinimax.svg?branch=master)](https://travis-ci.org/gemcfadyen/TicTacToeMiniax)
 [![Coverage Status](https://coveralls.io/repos/gemcfadyen/TicTacToeMinimax/badge.svg?branch=master)]  
-(https://coveralls.io/r/gemcfadyen/TicTacToe?branch=master)]
+(https://coveralls.io/r/gemcfadyen/TicTacToeMinimax?branch=master)
 
 Tic Tac Toe is a game where players take turn in marking the cells in a 3 x 3 grid. The player who succeeds in placing three respective marks in a horizontal, vertical or diagonal row wins the game.
 
