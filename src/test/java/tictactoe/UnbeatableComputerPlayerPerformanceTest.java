@@ -1,6 +1,7 @@
 package tictactoe;
 
 import org.apache.log4j.Logger;
+import org.junit.Ignore;
 import org.junit.Test;
 import tictactoe.grid.GridFactory;
 import tictactoe.player.AutomatedPlayer;
@@ -13,6 +14,7 @@ import static org.hamcrest.Matchers.is;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
 
+@Ignore
 public class UnbeatableComputerPlayerPerformanceTest {
     private static final Logger LOGGER = Logger.getLogger(UnbeatableComputerPlayerPerformanceTest.class);
     private static final int TIMES = 2000;

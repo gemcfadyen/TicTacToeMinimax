@@ -2,7 +2,6 @@ package tictactoe.grid;
 
 import org.junit.Before;
 import org.junit.Test;
-import tictactoe.grid.status.GameStatus;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -31,12 +30,6 @@ public class GridTest {
         Row bottom = aRowBuilder().withHorizontalRow(VACANT, O, X, BOTTOM_ROW_OFFSET).build();
 
         grid = new Grid(top, middle, bottom);
-    }
-
-    @Test
-    public void identifiesAnEmptyGrid() {
-        Grid emptyGrid = GridFactory.createEmptyGrid();
-        assertThat(emptyGrid.isEmpty(), is(true));
     }
 
     @Test
@@ -69,50 +62,9 @@ public class GridTest {
         assertThat(grid.isEmpty(), is(true));
     }
 
-    @Test
-    public void getFirstVacantCellOnGrid() {
-        GameStatus gameStatus = grid.getFirstVacantCell();
-        assertThat(gameStatus.getIndexOfMove(), is(1));
-    }
-
-    @Test
-    public void getVacantNonCornerCellOnEdge() {
-        GameStatus gameStatus = grid.getVacantNonCornerCellOnEdge();
-        assertThat(gameStatus.getIndexOfMove(), is(1));
-    }
-
-    @Test
-    public void noVacantCellOnEdgeIfOnlyCornersAreFree() {
-        GameStatus gameStatus = gridWithNoEdgeCellsVacant().getVacantNonCornerCellOnEdge();
-        assertThat(gameStatus.hasPotentialMove(), is(false));
-    }
-
-    @Test
-    public void noVacantCellsOnFullyPopulatedGrid() {
-        Grid fullyPopulatedGrid = fullyPopulatedGrid();
-        GameStatus gameStatus = fullyPopulatedGrid.getFirstVacantCell();
-        assertThat(gameStatus.hasPotentialMove(), is(false));
-    }
-
     @Test(expected = NoSuchElementException.class)
     public void exceptionThrownIfOffsetIsOutOfRange() {
         grid.update(10, X);
-    }
-
-    private Grid fullyPopulatedGrid() {
-        Row top = aRowBuilder().withHorizontalRow(X, O, X, NO_OFFSET).build();
-        Row middle = aRowBuilder().withHorizontalRow(X, X, O, NUMBER_OF_CELLS_IN_ROW).build();
-        Row bottom = aRowBuilder().withHorizontalRow(O, O, O, BOTTOM_ROW_OFFSET).build();
-
-        return new Grid(top, middle, bottom);
-    }
-
-    private Grid gridWithNoEdgeCellsVacant() {
-        Row top = aRowBuilder().withHorizontalRow(VACANT, O, VACANT, NO_OFFSET).build();
-        Row middle = aRowBuilder().withHorizontalRow(X, X, O, NUMBER_OF_CELLS_IN_ROW).build();
-        Row bottom = aRowBuilder().withHorizontalRow(VACANT, O, VACANT, BOTTOM_ROW_OFFSET).build();
-
-        return new Grid(top, middle, bottom);
     }
 
     private Cell getCellWithOffset(Row row, int offset) {

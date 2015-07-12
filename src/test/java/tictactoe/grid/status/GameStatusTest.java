@@ -9,7 +9,6 @@ import static tictactoe.grid.status.GameStatus.noPotentialMove;
 import static tictactoe.grid.status.GameStatus.noWin;
 import static tictactoe.grid.status.GameStatus.potentialMoveAt;
 import static tictactoe.grid.status.GameStatus.winFor;
-import static tictactoe.player.gameplan.GamePlan.NO_SUGGESTED_MOVE;
 
 public class GameStatusTest {
 
@@ -35,7 +34,7 @@ public class GameStatusTest {
 
         assertThat(gameStatus.hasWinner(), is(false));
         assertThat(gameStatus.hasPotentialMove(), is(false));
-        assertThat(gameStatus.getIndexOfMove(), is(NO_SUGGESTED_MOVE));
+        assertThat(gameStatus.getIndexOfMove(), is(-1));
     }
 
     @Test
@@ -44,6 +43,6 @@ public class GameStatusTest {
 
         assertThat(gameStatus.hasWinner(), is(false));
         assertThat(gameStatus.hasPotentialMove(), is(false));
-        assertThat(gameStatus.getIndexOfMove(), is(NO_SUGGESTED_MOVE));
+        assertThat(gameStatus.getIndexOfMove(), is(-1));
     }
 }

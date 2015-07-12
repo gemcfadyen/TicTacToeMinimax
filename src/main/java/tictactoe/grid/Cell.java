@@ -2,8 +2,6 @@ package tictactoe.grid;
 
 import tictactoe.Symbol;
 
-import static tictactoe.grid.Grid.DIAGONAL_OPPOSITE_CORNERS;
-
 public class Cell {
     private Symbol symbol;
     private int offset;
@@ -25,7 +23,4 @@ public class Cell {
         this.symbol = symbol;
     }
 
-    public boolean isCorner() {
-        return DIAGONAL_OPPOSITE_CORNERS.containsKey(offset);
-    }
 }

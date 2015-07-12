@@ -7,11 +7,10 @@ import static tictactoe.grid.State.NO_POTENTIAL_MOVE;
 import static tictactoe.grid.State.NO_WIN;
 import static tictactoe.grid.State.POTENTIAL_MOVE;
 import static tictactoe.grid.State.WIN;
-import static tictactoe.player.gameplan.GamePlan.NO_SUGGESTED_MOVE;
 
 public final class GameStatus {
     private Symbol winningSymbol;
-    private int indexOfMove = NO_SUGGESTED_MOVE;
+    private int indexOfMove = -1;
     private final State state;
 
     private GameStatus(State state) {
@@ -22,6 +21,8 @@ public final class GameStatus {
         this.state = state;
         this.winningSymbol = winningSymbol;
     }
+
+
 
     private GameStatus(State state, int indexOfMove) {
         this.state = state;
