@@ -10,32 +10,24 @@ import java.util.List;
 import java.util.function.Function;
 
 import static tictactoe.grid.GridFactory.createEmptyGrid;
-import static tictactoe.player.OrderedPlayerFactory.createPlayersInOrder;
+import static tictactoe.player.PlayerFactory.createPlayers;
 import static tictactoe.prompt.PromptFactory.createCommandLinePrompt;
 
 public class Game {
-    private static final int FIRST_PLAYER = 0;
-    private static final int SECOND_PLAYER = 1;
-    private static final int NUMBER_OF_PLAYERS = 2;
     private static final Void VOID = null;
-    private List<String> validOpponentChoices = ImmutableList.of("H", "A");
-    private List<String> validReplayOptions = ImmutableList.of("Y", "N");
+    private static final int HUMAN_PLAYER_INDEX = 0;
+    private static final int AUTOMATED_PLAYER_INDEX = 1;
+    private static final String HUMAN_PLAYER = "H";
+    private static final String AUTOMATED_PLAYER = "A";
+    private static final String PLAY_AGAIN = "Y";
+    private static final String DONT_PLAY_AGAIN = "N";
+
+    private List<String> validOpponentChoices = ImmutableList.of(HUMAN_PLAYER, AUTOMATED_PLAYER);
+    private List<String> validReplayOptions = ImmutableList.of(PLAY_AGAIN, DONT_PLAY_AGAIN);
 
     private final Grid grid;
     private Player[] players;
     private final Prompt prompt;
-
-    Game() {
-        grid = createEmptyGrid();
-        prompt = createCommandLinePrompt();
-        players = new Player[NUMBER_OF_PLAYERS];
-    }
-
-    protected Game(Grid grid, Prompt prompt) {
-        this.grid = grid;
-        this.players = new Player[NUMBER_OF_PLAYERS];
-        this.prompt = prompt;
-    }
 
     protected Game(Grid grid, Prompt prompt, Player[] players) {
         this.grid = grid;
@@ -44,7 +36,8 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        Game game = new Game();
+        Prompt prompt = createCommandLinePrompt();
+        Game game = new Game(createEmptyGrid(), prompt, createPlayers(prompt));
         game.play();
     }
 
@@ -52,19 +45,14 @@ public class Game {
         boolean isGameInProgress = true;
         while (isGameInProgress) {
             grid.reset();
-            players = configureOrderOfPlay();
             playGame();
             isGameInProgress = replay();
         }
     }
 
-    protected Player[] initialiseOrderedPlayers(String typeOfPlayerToGoFirst) {
-        return createPlayersInOrder(typeOfPlayerToGoFirst, prompt);
-    }
-
     private void playGame() {
+        int currentPlayerIndex = determineOpeningPlayer();
         prompt.display(grid.rows());
-        int currentPlayerIndex = FIRST_PLAYER;
         for (int i = 0; i < Grid.TOTAL_CELLS; i++) {
 
             grid.update(playersMove(currentPlayerIndex), playersSymbol(currentPlayerIndex));
@@ -96,16 +84,16 @@ public class Game {
     }
 
     private int opponent(int playersTurn) {
-        return playersTurn == FIRST_PLAYER
-                ? SECOND_PLAYER
-                : FIRST_PLAYER;
+        return playersTurn == HUMAN_PLAYER_INDEX
+                ? AUTOMATED_PLAYER_INDEX
+                : HUMAN_PLAYER_INDEX;
     }
 
     private boolean replay() {
         prompt.promptPlayerToStartNewGame();
         String playAgainOption = prompt.readsInput();
         playAgainOption = repromptUntilValid(playAgainOption, validReplayOptions, repromptReplayOption());
-        return playAgainOption.equalsIgnoreCase("Y");
+        return playAgainOption.equalsIgnoreCase(PLAY_AGAIN);
     }
 
     private Function<Prompt, Void> repromptReplayOption() {
@@ -115,11 +103,14 @@ public class Game {
         };
     }
 
-    private Player[] configureOrderOfPlay() {
+    private int determineOpeningPlayer() {
         prompt.promptForOrderOfPlay();
         String playerToGoFirst = prompt.readsInput();
         playerToGoFirst = repromptUntilValid(playerToGoFirst, validOpponentChoices, repromptOrderOfPlay());
-        return initialiseOrderedPlayers(playerToGoFirst);
+
+        return playerToGoFirst.equalsIgnoreCase(HUMAN_PLAYER)
+                ? HUMAN_PLAYER_INDEX
+                : AUTOMATED_PLAYER_INDEX;
     }
 
     private Function<Prompt, Void> repromptOrderOfPlay() {

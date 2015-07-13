@@ -33,13 +33,8 @@ public class GameTest {
 
     @Before
     public void setup() {
-        game = new Game(grid, prompt) {
-            protected Player[] initialiseOrderedPlayers(String typeOfPlayerToGoFirst) {
-                return new Player[] {
-                        playerO, playerX
-                };
-            }
-        };
+        Player[] players = new Player[] {playerX, playerO};
+        game = new Game(grid, prompt, players);
     }
 
     @Test
@@ -91,7 +86,11 @@ public class GameTest {
     @Test
     public void repromptPlayerToStartANewGameWhenInvalidInputProvided() {
         when(grid.evaluateWinningStatus()).thenReturn(noWin());
-        when(prompt.readsInput()).thenReturn(VALID_CHOICE).thenReturn(INVALID).thenReturn(REPLAY_GAME).thenReturn("A").thenReturn(DONT_REPLAY_GAME);
+        when(prompt.readsInput()).thenReturn(VALID_CHOICE)
+                .thenReturn(INVALID)
+                .thenReturn(REPLAY_GAME)
+                .thenReturn("A")
+                .thenReturn(DONT_REPLAY_GAME);
 
         game.play();
 
@@ -105,7 +104,10 @@ public class GameTest {
     @Test
     public void repromptPlayerForOrderOfPlayWhenInvalidInputProvided() {
         when(grid.evaluateWinningStatus()).thenReturn(noWin());
-        when(prompt.readsInput()).thenReturn(INVALID).thenReturn(VALID_CHOICE).thenReturn(DONT_REPLAY_GAME);
+        when(prompt.readsInput())
+                .thenReturn(INVALID)
+                .thenReturn(VALID_CHOICE)
+                .thenReturn(DONT_REPLAY_GAME);
 
         game.play();
 

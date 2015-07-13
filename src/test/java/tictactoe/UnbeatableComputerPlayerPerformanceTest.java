@@ -2,7 +2,6 @@ package tictactoe;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import tictactoe.grid.GridFactory;
 import tictactoe.player.AutomatedPlayer;
 import tictactoe.player.Player;
 import tictactoe.player.RandomCellTestPlayer;
@@ -12,6 +11,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
+import static tictactoe.grid.GridFactory.createEmptyGrid;
 
 public class UnbeatableComputerPlayerPerformanceTest {
     private static final Logger LOGGER = Logger.getLogger(UnbeatableComputerPlayerPerformanceTest.class);
@@ -23,13 +23,7 @@ public class UnbeatableComputerPlayerPerformanceTest {
         Player automatedPlayer = new AutomatedPlayer(X, fakePrompt);
         Player randomPlayer = new RandomCellTestPlayer(O, fakePrompt);
 
-        Game game = new Game(GridFactory.createEmptyGrid(), fakePrompt, new Player[] {automatedPlayer, randomPlayer}) {
-            protected Player[] initialiseOrderedPlayers(String typeOfPlayerToGoFirst) {
-                return new Player[] {
-                        automatedPlayer, randomPlayer
-                };
-            }
-        };
+        Game game = new Game(createEmptyGrid(), fakePrompt, new Player[] {automatedPlayer, randomPlayer});
 
         game.play();
 
@@ -43,13 +37,7 @@ public class UnbeatableComputerPlayerPerformanceTest {
         Player automatedPlayer = new AutomatedPlayer(X, fakePrompt);
         Player randomPlayer = new RandomCellTestPlayer(O, fakePrompt);
 
-        Game game = new Game(GridFactory.createEmptyGrid(), fakePrompt, new Player[] {automatedPlayer, randomPlayer}) {
-            protected Player[] initialiseOrderedPlayers(String typeOfPlayerToGoFirst) {
-                return new Player[] {
-                        randomPlayer, automatedPlayer
-                };
-            }
-        };
+        Game game = new Game(createEmptyGrid(), fakePrompt, new Player[] {automatedPlayer, randomPlayer});
 
         game.play();
 
