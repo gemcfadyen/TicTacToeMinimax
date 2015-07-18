@@ -89,7 +89,7 @@ public class GameTest {
         when(prompt.readsInput()).thenReturn(VALID_CHOICE)
                 .thenReturn(INVALID)
                 .thenReturn(REPLAY_GAME)
-                .thenReturn("A")
+                .thenReturn(VALID_CHOICE)
                 .thenReturn(DONT_REPLAY_GAME);
 
         game.play();
