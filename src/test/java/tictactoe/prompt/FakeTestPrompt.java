@@ -2,7 +2,7 @@ package tictactoe.prompt;
 
 import org.apache.log4j.Logger;
 import tictactoe.Symbol;
-import tictactoe.grid.Row;
+import tictactoe.grid.Cell;
 
 import java.util.List;
 
@@ -82,6 +82,6 @@ public class FakeTestPrompt implements Prompt {
     }
 
     @Override
-    public void display(List<Row> rows) {
+    public void display(List<Cell> cells) {
     }
 }

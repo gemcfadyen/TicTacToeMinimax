@@ -12,27 +12,16 @@ import static org.hamcrest.Matchers.is;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.VACANT;
 import static tictactoe.Symbol.X;
-import static tictactoe.grid.Grid.BOTTOM_ROW_OFFSET;
-import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
-import static tictactoe.grid.RowBuilder.aRowBuilder;
+import static tictactoe.grid.GridFactory.createEmptyGrid;
+import static tictactoe.grid.GridFactory.createGridWith;
 
 @RunWith(Parameterized.class)
 public class GridHasFreeCellAtAParticularIndexTest {
-
-    private static final Row EMPTY_TOP_ROW = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, 0).build();
-    private static final Row EMPTY_MIDDLE_ROW = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
-    private static final Row EMPTY_BOTTOM_ROW = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
-    private static final int NO_OFFSET = 0;
-
-    private final Row topRow;
-    private final Row bottomRow;
-    private final Row middleRow;
+    private Grid gridWithFreeCell;
     private final int freeCellIndex;
 
-    public GridHasFreeCellAtAParticularIndexTest(Row top, Row middle, Row bottom, int index) {
-        this.topRow = top;
-        this.middleRow = middle;
-        this.bottomRow = bottom;
+    public GridHasFreeCellAtAParticularIndexTest(Grid gridWithFreeCell, int index) {
+        this.gridWithFreeCell = gridWithFreeCell;
         this.freeCellIndex = index;
     }
 
@@ -40,27 +29,30 @@ public class GridHasFreeCellAtAParticularIndexTest {
     public static Collection dataSetup() {
         return Arrays.asList(new Object[][]{
                 {
-                        EMPTY_TOP_ROW,
-                        EMPTY_MIDDLE_ROW,
-                        EMPTY_BOTTOM_ROW,
+                        createEmptyGrid(),
                         0
                 },
                 {
-                        aRowBuilder().withHorizontalRow(VACANT, X, O, NO_OFFSET).build(),
-                        EMPTY_MIDDLE_ROW,
-                        EMPTY_BOTTOM_ROW,
+                        createGridWith(
+                                VACANT, X, O,
+                                VACANT, VACANT, VACANT,
+                                VACANT, VACANT, VACANT),
                         0
                 },
                 {
-                        EMPTY_TOP_ROW,
-                        aRowBuilder().withHorizontalRow(O, O, VACANT, NUMBER_OF_CELLS_IN_ROW).build(),
-                        EMPTY_BOTTOM_ROW,
+
+                        createGridWith(
+                                VACANT, VACANT, VACANT,
+                                O, O, VACANT,
+                                VACANT, VACANT, VACANT),
                         5
                 },
                 {
-                        EMPTY_TOP_ROW,
-                        EMPTY_MIDDLE_ROW,
-                        aRowBuilder().withHorizontalRow(X, VACANT, X, BOTTOM_ROW_OFFSET).build(),
+
+                        createGridWith(
+                                VACANT, VACANT, VACANT,
+                                VACANT, VACANT, VACANT,
+                                X, VACANT, X),
                         7
                 }
 
@@ -69,7 +61,6 @@ public class GridHasFreeCellAtAParticularIndexTest {
 
     @Test
     public void indicatesAGridHasFreeCellAtGivenIndex() {
-        Grid gridWithFreeCell = new Grid(topRow, middleRow, bottomRow);
         assertThat(gridWithFreeCell.isEmptyAt(freeCellIndex), is(true));
     }
 }

@@ -52,11 +52,11 @@ public class Game {
 
     private void playGame() {
         int currentPlayerIndex = determineOpeningPlayer();
-        prompt.display(grid.rows());
+        prompt.display(grid.getCells());
         for (int i = 0; i < Grid.TOTAL_CELLS; i++) {
 
             grid.update(playersMove(currentPlayerIndex), playersSymbol(currentPlayerIndex));
-            prompt.display(grid.rows());
+            prompt.display(grid.getCells());
 
             if (isWinningMove()) {
                 break;

@@ -10,22 +10,17 @@ import static org.hamcrest.Matchers.is;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.VACANT;
 import static tictactoe.Symbol.X;
-import static tictactoe.grid.Grid.BOTTOM_ROW_OFFSET;
-import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
-import static tictactoe.grid.RowBuilder.aRowBuilder;
+import static tictactoe.grid.GridFactory.createGridWith;
 
 public class GridTest {
-    private static final int NO_OFFSET = 0;
-
     private Grid grid;
 
     @Before
     public void setup() {
-        Row top = aRowBuilder().withHorizontalRow(X, VACANT, X, NO_OFFSET).build();
-        Row middle = aRowBuilder().withHorizontalRow(X, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
-        Row bottom = aRowBuilder().withHorizontalRow(VACANT, O, X, BOTTOM_ROW_OFFSET).build();
-
-        grid = new Grid(top, middle, bottom);
+        grid = createGridWith(
+                X, VACANT, X,
+                X, VACANT, VACANT,
+                VACANT, O, X);
     }
 
     @Test
@@ -42,11 +37,12 @@ public class GridTest {
 
     @Test
     public void resetGridToEmpty() {
-        Row top = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NO_OFFSET).build();
-        Row middle = aRowBuilder().withHorizontalRow(X, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
-        Row bottom = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
+        Grid gridWithOneCellOccupied =
+                createGridWith(
+                        VACANT, VACANT, VACANT,
+                        X, VACANT, VACANT,
+                        VACANT, VACANT, VACANT);
 
-        Grid gridWithOneCellOccupied = new Grid(top, middle, bottom);
         gridWithOneCellOccupied.reset();
 
         assertThat(gridWithOneCellOccupied.isEmptyAt(3), is(true));

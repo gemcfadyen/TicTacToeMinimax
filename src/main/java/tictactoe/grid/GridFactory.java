@@ -1,18 +1,34 @@
 package tictactoe.grid;
 
+import tictactoe.Symbol;
+
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
 import static tictactoe.Symbol.VACANT;
-import static tictactoe.grid.Grid.BOTTOM_ROW_OFFSET;
-import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
-import static tictactoe.grid.RowBuilder.aRowBuilder;
 
 public class GridFactory {
-    private static final int STARTING_INDEX = 0;
 
     public static Grid createEmptyGrid() {
         return new Grid(
-                aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, STARTING_INDEX).build(),
-                aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build(),
-                aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build()
-        );
+                withCells(
+                        VACANT, VACANT, VACANT,
+                        VACANT, VACANT, VACANT,
+                        VACANT, VACANT, VACANT));
+    }
+
+    public static Grid createGridWith(Symbol... symbols) {
+        return new Grid(withCells(symbols));
+    }
+
+    private static List<Cell> withCells(Symbol... symbols) {
+        List<Cell> cells = newArrayList();
+        int offset = 0;
+        for (Symbol symbol : symbols) {
+            cells.add(new Cell(symbol, offset));
+            offset++;
+        }
+
+        return cells;
     }
 }

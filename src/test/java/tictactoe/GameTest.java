@@ -56,7 +56,7 @@ public class GameTest {
 
         game.play();
 
-        verify(prompt, times(2)).display(grid.rows());
+        verify(prompt, times(2)).display(grid.getCells());
         verify(prompt, times(1)).displayWinningMessageFor(X);
     }
 
@@ -67,7 +67,7 @@ public class GameTest {
 
         game.play();
 
-        verify(prompt, times(2)).display(grid.rows());
+        verify(prompt, times(2)).display(grid.getCells());
         verify(prompt, times(1)).displayWinningMessageFor(O);
     }
 

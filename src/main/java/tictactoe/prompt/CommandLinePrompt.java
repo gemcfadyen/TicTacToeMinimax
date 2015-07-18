@@ -2,7 +2,6 @@ package tictactoe.prompt;
 
 import tictactoe.Symbol;
 import tictactoe.grid.Cell;
-import tictactoe.grid.Row;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,6 +9,7 @@ import java.io.Writer;
 import java.util.List;
 
 import static tictactoe.Symbol.VACANT;
+import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 import static java.lang.String.format;
 
 public class CommandLinePrompt implements Prompt {
@@ -53,19 +53,13 @@ public class CommandLinePrompt implements Prompt {
     }
 
     @Override
-    public void promptPlayerToStartNewGame() {
-        writeToConsole("Play again? (Y/N)");
+    public void display(List<Cell> cells) {
+        writeToConsole(prints(cells).toString());
     }
 
     @Override
-    public void display(List<Row> rows) {
-        StringBuffer gridDisplay = new StringBuffer();
-
-        for (Row row : rows) {
-            gridDisplay.append(prints(row));
-        }
-
-        writeToConsole(gridDisplay.toString());
+    public void promptPlayerToStartNewGame() {
+        writeToConsole("Play again? (Y/N)");
     }
 
     @Override
@@ -73,20 +67,32 @@ public class CommandLinePrompt implements Prompt {
         writeToConsole(format("Placing symbol %s at %s", symbol, move));
     }
 
-    private StringBuffer prints(Row row) {
+    private StringBuffer prints(List<Cell> cells) {
         StringBuffer gridDisplay = new StringBuffer();
         gridDisplay.append(" | ");
 
-        for (Cell cell : row.getCells()) {
+        int numberOfCells = 0;
+        for (Cell cell : cells) {
+            numberOfCells = newLineAtEndOfEachRow(gridDisplay, numberOfCells);
+
             if (cell.getSymbol() == VACANT) {
                 gridDisplay.append("(" + cell.getOffset() + ")");
             } else {
                 gridDisplay.append(" " + cell.getSymbol() + " ");
             }
             gridDisplay.append(" | ");
+            numberOfCells++;
         }
 
         return gridDisplay.append("\n");
+    }
+
+    private int newLineAtEndOfEachRow(StringBuffer gridDisplay, int numberOfCells) {
+        if (numberOfCells == NUMBER_OF_CELLS_IN_ROW) {
+            gridDisplay.append("\n | ");
+            return 0;
+        }
+        return numberOfCells;
     }
 
     private void writeToConsole(String message) {

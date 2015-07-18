@@ -4,13 +4,13 @@ package tictactoe.player;
 import tictactoe.Symbol;
 import tictactoe.grid.Cell;
 import tictactoe.grid.Grid;
-import tictactoe.grid.Row;
 import tictactoe.grid.status.GameStatus;
 import tictactoe.prompt.Prompt;
 
 import java.util.List;
 
 import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.size;
 import static com.google.common.collect.Lists.newArrayList;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.VACANT;
@@ -40,7 +40,7 @@ public class AutomatedPlayer implements Player {
         boolean isMaxPlayer = true;
 
         Score move = minimax(grid,
-                getNumberOfVacantCells(grid.rows()),
+                getNumberOfVacantCells(grid.getCells()),
                 ALPHA,
                 BETA,
                 isMaxPlayer);
@@ -62,7 +62,7 @@ public class AutomatedPlayer implements Player {
             return new Score(calculateScore(grid, depth));
         }
 
-        for (Cell possibleMove : getVacantCells(grid.rows())) {
+        for (Cell possibleMove : getVacantCells(grid.getCells())) {
             grid.update(possibleMove.getOffset(), isMaxPlayer ? symbol : opponent());
             Score value = minimax(grid, depth - 1, alpha, beta, isMaxPlayer ? false : true);
             grid.update(possibleMove.getOffset(), VACANT);
@@ -79,8 +79,8 @@ public class AutomatedPlayer implements Player {
         return calculateBestMoveFrom(scores, isMaxPlayer);
     }
 
-    private int getNumberOfVacantCells(List<Row> rows) {
-        return getVacantCells(rows).size();
+    private int getNumberOfVacantCells(List<Cell> cells) {
+        return size(getVacantCells(cells));
     }
 
     private boolean isZero(int depth) {
@@ -98,13 +98,8 @@ public class AutomatedPlayer implements Player {
         return DRAW_SCORE;
     }
 
-    private List<Cell> getVacantCells(List<Row> rows) {
-        List<Cell> allVacantCells = newArrayList();
-        for (Row row : rows) {
-            allVacantCells.addAll(
-                    newArrayList(filter(row.getCells(), cell -> cell.getSymbol() == VACANT)));
-        }
-        return allVacantCells;
+    private Iterable<Cell> getVacantCells(List<Cell> cells) {
+        return filter(cells, cell -> cell.getSymbol() == VACANT);
     }
 
     private Symbol opponent() {
