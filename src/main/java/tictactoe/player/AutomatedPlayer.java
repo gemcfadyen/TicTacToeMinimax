@@ -15,15 +15,17 @@ import static com.google.common.collect.Lists.newArrayList;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.VACANT;
 import static tictactoe.Symbol.X;
+import static java.util.Collections.max;
+import static java.util.Collections.min;
+import static java.util.Comparator.comparingInt;
 
 public class AutomatedPlayer implements Player {
     private static final int MAX_PLAYER_WINNING_SCORE = 10;
     private static final int MIN_PLAYER_WINNING_SCORE = -10;
     private static final int DRAW_SCORE = 0;
 
-    private static final int MIN_PLAYERS_STARTING_SCORE = 100;
-    private static final int MAX_PLAYERS_STARTING_SCORE = -100;
-    private static final int DEFAULT_CELL_OFFSET = -1;
+    private static final int ALPHA = -100;
+    private static final int BETA = 100;
 
     private final Symbol symbol;
     private final Prompt prompt;
@@ -36,8 +38,11 @@ public class AutomatedPlayer implements Player {
     @Override
     public int nextMoveOn(Grid grid) {
         boolean isMaxPlayer = true;
+
         Score move = minimax(grid,
                 getNumberOfVacantCells(grid.rows()),
+                ALPHA,
+                BETA,
                 isMaxPlayer);
 
         prompt.display(symbol, move.getPosition());
@@ -49,7 +54,7 @@ public class AutomatedPlayer implements Player {
         return symbol;
     }
 
-    private Score minimax(Grid grid, int depth, boolean isMaxPlayer) {
+    private Score minimax(Grid grid, int depth, int alpha, int beta, boolean isMaxPlayer) {
         List<Score> scores = newArrayList();
 
         GameStatus gameStatus = grid.evaluateWinningStatus();
@@ -59,10 +64,16 @@ public class AutomatedPlayer implements Player {
 
         for (Cell possibleMove : getVacantCells(grid.rows())) {
             grid.update(possibleMove.getOffset(), isMaxPlayer ? symbol : opponent());
-            Score value = minimax(grid, depth - 1, isMaxPlayer ? false : true);
+            Score value = minimax(grid, depth - 1, alpha, beta, isMaxPlayer ? false : true);
             grid.update(possibleMove.getOffset(), VACANT);
 
             scores.add(new Score(possibleMove.getOffset(), value.getScore()));
+            int updatedAlpha = isMaxPlayer ? Math.max(value.getScore(), alpha) : alpha;
+            int updatedBeta = isMaxPlayer ? beta : Math.min(value.getScore(), beta);
+
+            if (pruningTreeBranches(updatedAlpha, updatedBeta)) {
+                break;
+            }
         }
 
         return calculateBestMoveFrom(scores, isMaxPlayer);
@@ -70,15 +81,6 @@ public class AutomatedPlayer implements Player {
 
     private int getNumberOfVacantCells(List<Row> rows) {
         return getVacantCells(rows).size();
-    }
-
-    private List<Cell> getVacantCells(List<Row> rows) {
-        List<Cell> allVacantCells = newArrayList();
-        for (Row row : rows) {
-            allVacantCells.addAll(
-                    newArrayList(filter(row.getCells(), cell -> cell.getSymbol() == VACANT)));
-        }
-        return allVacantCells;
     }
 
     private boolean isZero(int depth) {
@@ -96,37 +98,27 @@ public class AutomatedPlayer implements Player {
         return DRAW_SCORE;
     }
 
+    private List<Cell> getVacantCells(List<Row> rows) {
+        List<Cell> allVacantCells = newArrayList();
+        for (Row row : rows) {
+            allVacantCells.addAll(
+                    newArrayList(filter(row.getCells(), cell -> cell.getSymbol() == VACANT)));
+        }
+        return allVacantCells;
+    }
+
     private Symbol opponent() {
         return symbol.equals(X) ? O : X;
     }
 
+    private boolean pruningTreeBranches(int alpha, int beta) {
+        return alpha > beta;
+    }
+
     private Score calculateBestMoveFrom(List<Score> scores, boolean isMaxPlayer) {
-        return isMaxPlayer ? max(scores) : min(scores);
-    }
-
-    private Score max(List<Score> scores) {
-        int maxScore = MAX_PLAYERS_STARTING_SCORE;
-        int bestMoveForMaxPlayer = DEFAULT_CELL_OFFSET;
-        for (Score score : scores) {
-            if (score.getScore() > maxScore) {
-                maxScore = score.getScore();
-                bestMoveForMaxPlayer = score.getPosition();
-            }
-        }
-        return new Score(bestMoveForMaxPlayer, maxScore);
-    }
-
-    private Score min(List<Score> scores) {
-        int minScore = MIN_PLAYERS_STARTING_SCORE;
-        int bestMoveForMinPlayer = DEFAULT_CELL_OFFSET;
-
-        for (Score score : scores) {
-            if (score.getScore() < minScore) {
-                minScore = score.getScore();
-                bestMoveForMinPlayer = score.getPosition();
-            }
-        }
-        return new Score(bestMoveForMinPlayer, minScore);
+        return isMaxPlayer
+                ? max(scores, comparingInt(maxScore -> maxScore.getScore()))
+                : min(scores, comparingInt(minScore -> minScore.getScore()));
     }
 }
 
