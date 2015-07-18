@@ -1,4 +1,3 @@
-
 package tictactoe.player;
 
 import tictactoe.Symbol;
@@ -64,7 +63,7 @@ public class AutomatedPlayer implements Player {
 
         for (Cell possibleMove : getVacantCells(grid.getCells())) {
             grid.update(possibleMove.getOffset(), isMaxPlayer ? symbol : opponent());
-            Score value = minimax(grid, depth - 1, alpha, beta, isMaxPlayer ? false : true);
+            Score value = minimax(grid, depth - 1, alpha, beta, !isMaxPlayer);
             grid.update(possibleMove.getOffset(), VACANT);
 
             scores.add(new Score(possibleMove.getOffset(), value.getScore()));
@@ -112,8 +111,8 @@ public class AutomatedPlayer implements Player {
 
     private Score calculateBestMoveFrom(List<Score> scores, boolean isMaxPlayer) {
         return isMaxPlayer
-                ? max(scores, comparingInt(maxScore -> maxScore.getScore()))
-                : min(scores, comparingInt(minScore -> minScore.getScore()));
+                ? max(scores, comparingInt(Score::getScore))
+                : min(scores, comparingInt(Score::getScore));
     }
 }
 
