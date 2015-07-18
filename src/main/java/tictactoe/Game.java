@@ -15,8 +15,8 @@ import static tictactoe.prompt.PromptFactory.createCommandLinePrompt;
 
 public class Game {
     private static final Void VOID = null;
-    private static final int HUMAN_PLAYER_INDEX = 0;
-    private static final int AUTOMATED_PLAYER_INDEX = 1;
+    private static final int AUTOMATED_PLAYER_INDEX = 0;
+    private static final int HUMAN_PLAYER_INDEX = 1;
     private static final String HUMAN_PLAYER = "H";
     private static final String AUTOMATED_PLAYER = "A";
     private static final String PLAY_AGAIN = "Y";

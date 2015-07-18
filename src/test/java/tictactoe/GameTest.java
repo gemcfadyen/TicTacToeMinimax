@@ -44,8 +44,8 @@ public class GameTest {
 
         game.play();
 
-        verify(playerX, times(4)).nextMoveOn(grid);
-        verify(playerO, times(5)).nextMoveOn(grid);
+        verify(playerX, times(5)).nextMoveOn(grid);
+        verify(playerO, times(4)).nextMoveOn(grid);
         verify(prompt).displayGameOver();
     }
 
@@ -73,14 +73,14 @@ public class GameTest {
 
     @Test
     public void gridIsUpdatedOnceAPlayerHasMadeTheirMove() {
-        when(playerO.nextMoveOn(grid)).thenReturn(3);
-        when(playerO.getSymbol()).thenReturn(O);
-        when(grid.evaluateWinningStatus()).thenReturn(winFor(O));
+        when(playerX.nextMoveOn(grid)).thenReturn(3);
+        when(playerX.getSymbol()).thenReturn(X);
+        when(grid.evaluateWinningStatus()).thenReturn(winFor(X));
         when(prompt.readsInput()).thenReturn(VALID_CHOICE).thenReturn(DONT_REPLAY_GAME);
 
         game.play();
 
-        verify(grid, times(1)).update(3, O);
+        verify(grid, times(1)).update(3, X);
     }
 
     @Test
