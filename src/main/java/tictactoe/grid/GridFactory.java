@@ -23,7 +23,7 @@ public class GridFactory {
 
     private static List<Cell> withCells(Symbol... symbols) {
         List<Cell> cells = newArrayList();
-        int offset = 0;
+        int offset = 1;
         for (Symbol symbol : symbols) {
             cells.add(new Cell(symbol, offset));
             offset++;

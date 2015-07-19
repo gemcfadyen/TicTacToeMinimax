@@ -64,7 +64,7 @@ public class AutomatedPlayer implements Player {
         for (Cell possibleMove : getVacantCells(grid.getCells())) {
             grid.update(possibleMove.getOffset(), isMaxPlayer ? symbol : opponent());
             Score value = minimax(grid, depth - 1, alpha, beta, !isMaxPlayer);
-            grid.update(possibleMove.getOffset(), VACANT);
+            revertMove(grid, possibleMove);
 
             scores.add(new Score(possibleMove.getOffset(), value.getScore()));
             int updatedAlpha = isMaxPlayer ? Math.max(value.getScore(), alpha) : alpha;
@@ -103,6 +103,10 @@ public class AutomatedPlayer implements Player {
 
     private Symbol opponent() {
         return symbol.equals(X) ? O : X;
+    }
+
+    private void revertMove(Grid grid, Cell possibleMove) {
+        grid.update(possibleMove.getOffset(), VACANT);
     }
 
     private boolean pruningTreeBranches(int alpha, int beta) {

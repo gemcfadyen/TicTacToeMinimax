@@ -9,6 +9,8 @@ import java.util.Random;
 import static tictactoe.grid.Grid.TOTAL_CELLS;
 
 public class RandomCellTestPlayer implements Player {
+    private static final int MIN_INDEX = 1;
+
     private final Random randomNumberGenerator;
     private final Symbol symbol;
     private Prompt prompt;
@@ -34,9 +36,8 @@ public class RandomCellTestPlayer implements Player {
         }
         return randomCellOffset;
     }
-
     private int generateRandomCellOffsetWithinRange() {
-        return randomNumberGenerator.nextInt(TOTAL_CELLS);
+        return randomNumberGenerator.nextInt(TOTAL_CELLS - MIN_INDEX + 1) + 1;
     }
 
     @Override

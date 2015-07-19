@@ -87,9 +87,9 @@ public class CommandLinePromptTest {
         Prompt commandLinePrompt = createCommandLinePrompt();
         commandLinePrompt.display(gridForDisplay.getCells());
 
-        StringBuffer expectedGridDisplay = new StringBuffer("\n |  X  | (1) |  X  | \n ");
-        expectedGridDisplay.append("|  X  | (4) | (5) | \n ");
-        expectedGridDisplay.append("| (6) |  O  |  X  | \n\n");
+        StringBuffer expectedGridDisplay = new StringBuffer("\n |  X  | (2) |  X  | \n ");
+        expectedGridDisplay.append("|  X  | (5) | (6) | \n ");
+        expectedGridDisplay.append("| (7) |  O  |  X  | \n\n");
 
         assertThat(stringWriter.toString(), is(equalTo(expectedGridDisplay.toString())));
     }

@@ -2,11 +2,8 @@ package tictactoe.player;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 import tictactoe.grid.Grid;
 import tictactoe.prompt.Prompt;
-import tictactoe.prompt.PromptFactory;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -14,10 +11,10 @@ import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.VACANT;
 import static tictactoe.Symbol.X;
 import static tictactoe.grid.GridFactory.createGridWith;
+import static tictactoe.prompt.PromptFactory.createCommandLinePrompt;
 
-@RunWith(MockitoJUnitRunner.class)
 public class AutomatedPlayerTest {
-    private Prompt prompt = PromptFactory.createCommandLinePrompt();
+    private Prompt prompt = createCommandLinePrompt();
     private Player automatedPlayer;
 
     @Before
@@ -37,7 +34,7 @@ public class AutomatedPlayerTest {
                 O, VACANT, VACANT,
                 VACANT, VACANT, O);
 
-        assertThat(automatedPlayer.nextMoveOn(grid), is(2));
+        assertThat(automatedPlayer.nextMoveOn(grid), is(3));
     }
 
     @Test
@@ -47,7 +44,7 @@ public class AutomatedPlayerTest {
                 VACANT, X, X,
                 VACANT, O, VACANT);
 
-        assertThat(automatedPlayer.nextMoveOn(grid), is(3));
+        assertThat(automatedPlayer.nextMoveOn(grid), is(4));
     }
 
     @Test
@@ -57,7 +54,7 @@ public class AutomatedPlayerTest {
                 VACANT, O, VACANT,
                 X, VACANT, X);
 
-        assertThat(automatedPlayer.nextMoveOn(grid), is(7));
+        assertThat(automatedPlayer.nextMoveOn(grid), is(8));
     }
 
     @Test
@@ -68,7 +65,7 @@ public class AutomatedPlayerTest {
                 X, VACANT, VACANT,
                 VACANT, VACANT, VACANT);
 
-        assertThat(automatedPlayer.nextMoveOn(grid), is(6));
+        assertThat(automatedPlayer.nextMoveOn(grid), is(7));
     }
 
     @Test
@@ -79,7 +76,7 @@ public class AutomatedPlayerTest {
                 VACANT, X, O,
                 VACANT, X, VACANT);
 
-        assertThat(automatedPlayer.nextMoveOn(grid), is(1));
+        assertThat(automatedPlayer.nextMoveOn(grid), is(2));
     }
 
     @Test
@@ -90,7 +87,7 @@ public class AutomatedPlayerTest {
                 VACANT, O, VACANT,
                 O, VACANT, X);
 
-        assertThat(automatedPlayer.nextMoveOn(grid), is(5));
+        assertThat(automatedPlayer.nextMoveOn(grid), is(6));
     }
 
     @Test
@@ -101,7 +98,7 @@ public class AutomatedPlayerTest {
                 VACANT, VACANT, VACANT,
                 X, VACANT, O);
 
-        assertThat(automatedPlayer.nextMoveOn(grid), is(4));
+        assertThat(automatedPlayer.nextMoveOn(grid), is(5));
     }
 
     @Test
@@ -112,7 +109,7 @@ public class AutomatedPlayerTest {
                 VACANT, X, O,
                 VACANT, VACANT, X);
 
-        assertThat(automatedPlayer.nextMoveOn(grid), is(0));
+        assertThat(automatedPlayer.nextMoveOn(grid), is(1));
     }
 
     @Test
@@ -123,7 +120,7 @@ public class AutomatedPlayerTest {
                 VACANT, VACANT, X,
                 O, X, VACANT);
 
-        assertThat(automatedPlayer.nextMoveOn(grid), is(3));
+        assertThat(automatedPlayer.nextMoveOn(grid), is(4));
     }
 
     @Test
@@ -135,7 +132,7 @@ public class AutomatedPlayerTest {
                 VACANT, O, X,
                 VACANT, O, VACANT);
 
-        assertThat(automatedPlayer.nextMoveOn(grid), is(1));
+        assertThat(automatedPlayer.nextMoveOn(grid), is(2));
     }
 
     @Test
@@ -145,7 +142,7 @@ public class AutomatedPlayerTest {
                 VACANT, VACANT, O,
                 VACANT, VACANT, VACANT);
 
-        assertThat(automatedPlayer.nextMoveOn(grid), is(8));
+        assertThat(automatedPlayer.nextMoveOn(grid), is(9));
     }
 
     @Test
@@ -156,7 +153,7 @@ public class AutomatedPlayerTest {
                 X, VACANT, VACANT,
                 VACANT, X, VACANT);
 
-        assertThat(automatedPlayer.nextMoveOn(grid), is(1));
+        assertThat(automatedPlayer.nextMoveOn(grid), is(2));
     }
 
     @Test
@@ -168,7 +165,7 @@ public class AutomatedPlayerTest {
                 O, O, VACANT,
                 X, VACANT, VACANT);
 
-        assertThat(automatedPlayer.nextMoveOn(grid), is(5));
+        assertThat(automatedPlayer.nextMoveOn(grid), is(6));
     }
 
     @Test
@@ -179,7 +176,7 @@ public class AutomatedPlayerTest {
                 VACANT, VACANT, X,
                 O, VACANT, O);
 
-        assertThat(automatedPlayer.nextMoveOn(grid), is(7));
+        assertThat(automatedPlayer.nextMoveOn(grid), is(8));
     }
 
     @Test
@@ -190,7 +187,7 @@ public class AutomatedPlayerTest {
                 VACANT, VACANT, VACANT,
                 VACANT, VACANT, O);
 
-        assertThat(automatedPlayer.nextMoveOn(grid), is(4));
+        assertThat(automatedPlayer.nextMoveOn(grid), is(5));
     }
 
     @Test
@@ -200,6 +197,6 @@ public class AutomatedPlayerTest {
                 VACANT, O, VACANT,
                 O, X, VACANT);
 
-        assertThat(automatedPlayer.nextMoveOn(grid), is(2));
+        assertThat(automatedPlayer.nextMoveOn(grid), is(3));
     }
 }

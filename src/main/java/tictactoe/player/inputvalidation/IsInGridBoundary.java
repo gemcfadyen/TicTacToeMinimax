@@ -6,7 +6,7 @@ public class IsInGridBoundary implements InputValidator {
     @Override
     public boolean isValid(String move) {
         int cellIndex = Integer.valueOf(move);
-        if (cellIndex < 0 || cellIndex >= TOTAL_CELLS) {
+        if (cellIndex < 1 || cellIndex > TOTAL_CELLS) {
             return false;
         }
         return true;

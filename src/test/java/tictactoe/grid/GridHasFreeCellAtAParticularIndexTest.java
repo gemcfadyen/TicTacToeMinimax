@@ -30,14 +30,14 @@ public class GridHasFreeCellAtAParticularIndexTest {
         return Arrays.asList(new Object[][]{
                 {
                         createEmptyGrid(),
-                        0
+                        1
                 },
                 {
                         createGridWith(
                                 VACANT, X, O,
                                 VACANT, VACANT, VACANT,
                                 VACANT, VACANT, VACANT),
-                        0
+                        1
                 },
                 {
 
@@ -45,7 +45,7 @@ public class GridHasFreeCellAtAParticularIndexTest {
                                 VACANT, VACANT, VACANT,
                                 O, O, VACANT,
                                 VACANT, VACANT, VACANT),
-                        5
+                        6
                 },
                 {
 
@@ -53,7 +53,7 @@ public class GridHasFreeCellAtAParticularIndexTest {
                                 VACANT, VACANT, VACANT,
                                 VACANT, VACANT, VACANT,
                                 X, VACANT, X),
-                        7
+                        8
                 }
 
         });
