@@ -53,6 +53,7 @@ public class AutomatedPlayer implements Player {
         return symbol;
     }
 
+    //CHECKSTYLE:ParameterAssignment:OFF
     private Score minimax(Grid grid, int depth, int alpha, int beta, boolean isMaxPlayer) {
         List<Score> scores = newArrayList();
 
@@ -67,10 +68,10 @@ public class AutomatedPlayer implements Player {
             revertMove(grid, possibleMove);
 
             scores.add(new Score(possibleMove.getOffset(), value.getScore()));
-            int updatedAlpha = isMaxPlayer ? Math.max(value.getScore(), alpha) : alpha;
-            int updatedBeta = isMaxPlayer ? beta : Math.min(value.getScore(), beta);
+            alpha = isMaxPlayer ? Math.max(value.getScore(), alpha) : alpha;
+            beta = isMaxPlayer ? beta : Math.min(value.getScore(), beta);
 
-            if (pruningTreeBranches(updatedAlpha, updatedBeta)) {
+            if (pruningTreeBranches(alpha, beta)) {
                 break;
             }
         }
