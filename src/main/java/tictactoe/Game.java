@@ -1,6 +1,7 @@
 package tictactoe;
 
 import com.google.common.collect.ImmutableList;
+import tictactoe.grid.Cell;
 import tictactoe.grid.Grid;
 import tictactoe.grid.status.GameStatus;
 import tictactoe.player.Player;
@@ -9,6 +10,9 @@ import tictactoe.prompt.Prompt;
 import java.util.List;
 import java.util.function.Function;
 
+import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.size;
+import static tictactoe.Symbol.VACANT;
 import static tictactoe.grid.GridFactory.createEmptyGrid;
 import static tictactoe.player.PlayerFactory.createPlayers;
 import static tictactoe.prompt.PromptFactory.createCommandLinePrompt;
@@ -53,8 +57,8 @@ public class Game {
     private void playGame() {
         int currentPlayerIndex = determineOpeningPlayer();
         prompt.display(grid.getCells());
-        for (int i = 0; i < Grid.TOTAL_CELLS; i++) {
 
+        while (vacantCellsOn(grid)) {
             grid.update(playersMove(currentPlayerIndex), playersSymbol(currentPlayerIndex));
             prompt.display(grid.getCells());
 
@@ -66,8 +70,26 @@ public class Game {
         prompt.displayGameOver();
     }
 
-    private Symbol playersSymbol(int currentPlayerIndex) {
-        return players[currentPlayerIndex].getSymbol();
+    private boolean replay() {
+        prompt.promptPlayerToStartNewGame();
+        String playAgainOption = prompt.readsInput();
+        playAgainOption = repromptUntilValid(playAgainOption, validReplayOptions, repromptReplayOption());
+        return playAgainOption.equalsIgnoreCase(PLAY_AGAIN);
+    }
+
+    private int determineOpeningPlayer() {
+        prompt.promptForOrderOfPlay();
+        String playerToGoFirst = prompt.readsInput();
+        playerToGoFirst = repromptUntilValid(playerToGoFirst, validOpponentChoices, repromptOrderOfPlay());
+
+        return playerToGoFirst.equalsIgnoreCase(HUMAN_PLAYER)
+                ? HUMAN_PLAYER_INDEX
+                : AUTOMATED_PLAYER_INDEX;
+    }
+
+    private boolean vacantCellsOn(Grid grid) {
+        Iterable<Cell> vacantCells = filter(grid.getCells(), cell -> cell.getSymbol() == VACANT);
+        return size(vacantCells) > 0;
     }
 
     private int playersMove(int currentPlayerIndex) {
@@ -89,35 +111,8 @@ public class Game {
                 : HUMAN_PLAYER_INDEX;
     }
 
-    private boolean replay() {
-        prompt.promptPlayerToStartNewGame();
-        String playAgainOption = prompt.readsInput();
-        playAgainOption = repromptUntilValid(playAgainOption, validReplayOptions, repromptReplayOption());
-        return playAgainOption.equalsIgnoreCase(PLAY_AGAIN);
-    }
-
-    private Function<Prompt, Void> repromptReplayOption() {
-        return prompt -> {
-            prompt.promptPlayerToStartNewGame();
-            return VOID;
-        };
-    }
-
-    private int determineOpeningPlayer() {
-        prompt.promptForOrderOfPlay();
-        String playerToGoFirst = prompt.readsInput();
-        playerToGoFirst = repromptUntilValid(playerToGoFirst, validOpponentChoices, repromptOrderOfPlay());
-
-        return playerToGoFirst.equalsIgnoreCase(HUMAN_PLAYER)
-                ? HUMAN_PLAYER_INDEX
-                : AUTOMATED_PLAYER_INDEX;
-    }
-
-    private Function<Prompt, Void> repromptOrderOfPlay() {
-        return prompt -> {
-            prompt.promptForOrderOfPlay();
-            return VOID;
-        };
+    private Symbol playersSymbol(int currentPlayerIndex) {
+        return players[currentPlayerIndex].getSymbol();
     }
 
     private String repromptUntilValid(String playersInput, List<String> validOptions, Function<Prompt, Void> reprompt) {
@@ -129,6 +124,19 @@ public class Game {
         return opponentOption;
     }
 
+    private Function<Prompt, Void> repromptOrderOfPlay() {
+        return prompt -> {
+            prompt.promptForOrderOfPlay();
+            return VOID;
+        };
+    }
+
+    private Function<Prompt, Void> repromptReplayOption() {
+        return prompt -> {
+            prompt.promptPlayerToStartNewGame();
+            return VOID;
+        };
+    }
 
     private boolean valid(String playersInput, List<String> validOptions) {
         return validOptions.contains(playersInput.toUpperCase());

@@ -6,7 +6,7 @@ public class Cell {
     private Symbol symbol;
     private int offset;
 
-    Cell(Symbol symbol, int offset) {
+    public Cell(Symbol symbol, int offset) {
         this.symbol = symbol;
         this.offset = offset;
     }

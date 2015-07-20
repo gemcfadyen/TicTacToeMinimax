@@ -9,13 +9,14 @@ import tictactoe.grid.Grid;
 import tictactoe.player.Player;
 import tictactoe.prompt.Prompt;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
-import static tictactoe.grid.status.GameStatus.noWin;
-import static tictactoe.grid.status.GameStatus.winFor;
+import static tictactoe.grid.GridFactory.createEmptyGrid;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GameTest {
@@ -27,19 +28,23 @@ public class GameTest {
     @Mock private Player playerO;
     @Mock private Player playerX;
     @Mock private Prompt prompt;
-    @Mock private Grid grid;
 
     private Game game;
+    private Grid grid;
 
     @Before
     public void setup() {
-        Player[] players = new Player[] {playerX, playerO};
-        game = new Game(grid, prompt, players);
+        grid = createEmptyGrid();
+        game = new Game(grid, prompt, new Player[] {playerX, playerO});
+
+        when(playerO.getSymbol()).thenReturn(O);
+        when(playerX.getSymbol()).thenReturn(X);
     }
 
     @Test
     public void gameEndsWhenNineMovesHaveBeenMade() {
-        when(grid.evaluateWinningStatus()).thenReturn(noWin());
+        when(playerX.nextMoveOn(grid)).thenReturn(1, 3, 6, 7, 8);
+        when(playerO.nextMoveOn(grid)).thenReturn(4, 2, 5, 9);
         when(prompt.readsInput()).thenReturn(VALID_CHOICE).thenReturn(DONT_REPLAY_GAME);
 
         game.play();
@@ -51,41 +56,46 @@ public class GameTest {
 
     @Test
     public void gameEndsWhenGridContainsThreeXsInARow() {
-        when(grid.evaluateWinningStatus()).thenReturn(winFor(X));
+        when(playerX.nextMoveOn(grid)).thenReturn(1, 2, 3);
+        when(playerO.nextMoveOn(grid)).thenReturn(4, 5);
         when(prompt.readsInput()).thenReturn(VALID_CHOICE).thenReturn(DONT_REPLAY_GAME);
 
         game.play();
 
-        verify(prompt, times(2)).display(grid.getCells());
         verify(prompt, times(1)).displayWinningMessageFor(X);
     }
 
     @Test
     public void gameEndsWhenGridContainsThreeOsInARow() {
-        when(grid.evaluateWinningStatus()).thenReturn(winFor(O));
+        when(playerX.nextMoveOn(grid)).thenReturn(1, 7, 3);
+        when(playerO.nextMoveOn(grid)).thenReturn(4, 5, 6);
         when(prompt.readsInput()).thenReturn(VALID_CHOICE).thenReturn(DONT_REPLAY_GAME);
 
         game.play();
 
-        verify(prompt, times(2)).display(grid.getCells());
         verify(prompt, times(1)).displayWinningMessageFor(O);
     }
 
     @Test
     public void gridIsUpdatedOnceAPlayerHasMadeTheirMove() {
-        when(playerX.nextMoveOn(grid)).thenReturn(3);
-        when(playerX.getSymbol()).thenReturn(X);
-        when(grid.evaluateWinningStatus()).thenReturn(winFor(X));
+        when(playerX.nextMoveOn(grid)).thenReturn(1, 2, 3);
+        when(playerO.nextMoveOn(grid)).thenReturn(4, 5);
         when(prompt.readsInput()).thenReturn(VALID_CHOICE).thenReturn(DONT_REPLAY_GAME);
 
         game.play();
 
-        verify(grid, times(1)).update(3, X);
+        assertThat(grid.getCellWithOffset(1).getSymbol(), equalTo(X));
+        assertThat(grid.getCellWithOffset(2).getSymbol(), equalTo(X));
+        assertThat(grid.getCellWithOffset(3).getSymbol(), equalTo(X));
+        assertThat(grid.getCellWithOffset(4).getSymbol(), equalTo(O));
+        assertThat(grid.getCellWithOffset(5).getSymbol(), equalTo(O));
     }
 
     @Test
     public void repromptPlayerToStartANewGameWhenInvalidInputProvided() {
-        when(grid.evaluateWinningStatus()).thenReturn(noWin());
+        when(playerX.nextMoveOn(grid)).thenReturn(1, 2, 3, 1, 2, 3);
+        when(playerO.nextMoveOn(grid)).thenReturn(4, 5, 4, 5);
+
         when(prompt.readsInput()).thenReturn(VALID_CHOICE)
                 .thenReturn(INVALID)
                 .thenReturn(REPLAY_GAME)
@@ -96,14 +106,14 @@ public class GameTest {
 
         verify(prompt, times(2)).displayGameOver();
         verify(prompt, times(2)).promptForOrderOfPlay();
-        verify(grid, times(2)).reset();
         verify(prompt, times(3)).promptPlayerToStartNewGame();
     }
 
 
     @Test
     public void repromptPlayerForOrderOfPlayWhenInvalidInputProvided() {
-        when(grid.evaluateWinningStatus()).thenReturn(noWin());
+        when(playerX.nextMoveOn(grid)).thenReturn(1, 2, 3);
+        when(playerO.nextMoveOn(grid)).thenReturn(4, 5);
         when(prompt.readsInput())
                 .thenReturn(INVALID)
                 .thenReturn(VALID_CHOICE)
