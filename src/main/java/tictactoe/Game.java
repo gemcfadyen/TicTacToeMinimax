@@ -3,7 +3,7 @@ package tictactoe;
 import com.google.common.collect.ImmutableList;
 import tictactoe.grid.Cell;
 import tictactoe.grid.Grid;
-import tictactoe.grid.status.GameStatus;
+import tictactoe.grid.status.WinStatus;
 import tictactoe.player.Player;
 import tictactoe.prompt.Prompt;
 
@@ -97,7 +97,7 @@ public class Game {
     }
 
     private boolean isWinningMove() {
-        GameStatus gameStatus = grid.evaluateWinningStatus();
+        WinStatus gameStatus = grid.winStatus();
         if (gameStatus.hasWinner()) {
             prompt.displayWinningMessageFor(gameStatus.winningSymbol());
             return true;

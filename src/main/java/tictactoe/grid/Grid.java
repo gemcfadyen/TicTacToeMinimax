@@ -2,7 +2,7 @@ package tictactoe.grid;
 
 import com.google.common.base.Predicate;
 import tictactoe.Symbol;
-import tictactoe.grid.status.GameStatus;
+import tictactoe.grid.status.WinStatus;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static tictactoe.Symbol.VACANT;
 import static tictactoe.grid.RowGenerator.generateRowsForAllDirectionsFrom;
-import static tictactoe.grid.status.GameStatus.noWin;
-import static tictactoe.grid.status.GameStatus.winFor;
+import static tictactoe.grid.status.WinStatus.noWin;
+import static tictactoe.grid.status.WinStatus.winFor;
 
 public class Grid {
     public static final int NUMBER_OF_CELLS_IN_ROW = 3;
@@ -46,7 +46,7 @@ public class Grid {
                 && all(cells, checkAllCellsHaveTheSame(symbol));
     }
 
-    public GameStatus evaluateWinningStatus() {
+    public WinStatus winStatus() {
         List<List<Cell>> allRows = generateRowsForAllDirectionsFrom(cells);
 
         for (List<Cell> row : allRows) {

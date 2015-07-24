@@ -93,9 +93,8 @@ public class GridContainsWinningRowTest {
         });
     }
 
-
     @Test
     public void identifiesWhenAWinningRowExistsInTheGrid() {
-        assertThat(gridWithPotentialWinningRow.evaluateWinningStatus().hasWinner(), is(hasWinningRow));
+        assertThat(gridWithPotentialWinningRow.winStatus().hasWinner(), is(hasWinningRow));
     }
 }

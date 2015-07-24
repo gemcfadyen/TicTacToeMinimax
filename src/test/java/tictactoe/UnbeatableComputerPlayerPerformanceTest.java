@@ -15,7 +15,7 @@ import static tictactoe.grid.GridFactory.createEmptyGrid;
 
 public class UnbeatableComputerPlayerPerformanceTest {
     private static final Logger LOGGER = Logger.getLogger(UnbeatableComputerPlayerPerformanceTest.class);
-    private static final int TIMES = 100;
+    private static final int TIMES = 200;
 
     @Test
     public void automatedPlayerOpensTheGameAndOpponentNeverWins() {

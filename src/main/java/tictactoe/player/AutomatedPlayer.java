@@ -3,7 +3,7 @@ package tictactoe.player;
 import tictactoe.Symbol;
 import tictactoe.grid.Cell;
 import tictactoe.grid.Grid;
-import tictactoe.grid.status.GameStatus;
+import tictactoe.grid.status.WinStatus;
 import tictactoe.prompt.Prompt;
 
 import java.util.List;
@@ -57,9 +57,9 @@ public class AutomatedPlayer implements Player {
     private Score minimax(Grid grid, int depth, int alpha, int beta, boolean isMaxPlayer) {
         List<Score> scores = newArrayList();
 
-        GameStatus gameStatus = grid.evaluateWinningStatus();
+        WinStatus gameStatus = grid.winStatus();
         if (isZero(depth) || gameStatus.hasWinner()) {
-            return new Score(calculateScore(grid, depth));
+            return new Score(calculateScore(gameStatus, depth));
         }
 
         for (Cell possibleMove : getVacantCells(grid.getCells())) {
@@ -75,7 +75,6 @@ public class AutomatedPlayer implements Player {
                 break;
             }
         }
-
         return calculateBestMoveFrom(scores, isMaxPlayer);
     }
 
@@ -87,9 +86,7 @@ public class AutomatedPlayer implements Player {
         return depth == 0;
     }
 
-    private int calculateScore(Grid grid, int depth) {
-        GameStatus gameStatus = grid.evaluateWinningStatus();
-
+    private int calculateScore(WinStatus gameStatus, int depth) {
         if (gameStatus.hasWinner()) {
             return gameStatus.winningSymbol() == symbol
                     ? MAX_PLAYER_WINNING_SCORE + depth
