@@ -17,22 +17,12 @@ import static tictactoe.grid.status.WinStatus.winFor;
 public class Grid {
     public static final int NUMBER_OF_CELLS_IN_ROW = 3;
     public static final int TOTAL_CELLS = NUMBER_OF_CELLS_IN_ROW * NUMBER_OF_CELLS_IN_ROW;
-
     protected static final int FIRST_CELL_INDEX = 0;
+
     private List<Cell> cells;
 
-    public Grid(List<Cell> cells) {
+    public Grid(final List<Cell> cells) {
         this.cells = cells;
-    }
-
-    public boolean isEmptyAt(int offset) {
-        Cell cellWithOffset = getCellWithOffset(offset);
-        return cellWithOffset.getSymbol() == VACANT;
-    }
-
-    public void update(int offset, Symbol symbol) {
-        Cell cellToUpdate = getCellWithOffset(offset);
-        cellToUpdate.setSymbol(symbol);
     }
 
     public Cell getCellWithOffset(final int offset) {
@@ -40,7 +30,17 @@ public class Grid {
         return getOnlyElement(cellWithOffset);
     }
 
-    public boolean isWinningRow(List<Cell> cells) {
+    public boolean isEmptyAt(final int offset) {
+        Cell cellWithOffset = getCellWithOffset(offset);
+        return cellWithOffset.getSymbol() == VACANT;
+    }
+
+    public void update(final int offset, final Symbol symbol) {
+        Cell cellToUpdate = getCellWithOffset(offset);
+        cellToUpdate.setSymbol(symbol);
+    }
+
+    public boolean isWinningRow(final List<Cell> cells) {
         Symbol symbol = cells.get(FIRST_CELL_INDEX).getSymbol();
         return symbol != VACANT
                 && all(cells, checkAllCellsHaveTheSame(symbol));

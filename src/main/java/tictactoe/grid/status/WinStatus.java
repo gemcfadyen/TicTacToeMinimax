@@ -1,10 +1,9 @@
 package tictactoe.grid.status;
 
 import tictactoe.Symbol;
-import tictactoe.grid.State;
 
-import static tictactoe.grid.State.NO_WIN;
-import static tictactoe.grid.State.WIN;
+import static tictactoe.grid.status.State.NO_WIN;
+import static tictactoe.grid.status.State.WIN;
 
 public final class WinStatus {
     private Symbol winningSymbol;

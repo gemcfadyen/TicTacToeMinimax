@@ -54,7 +54,7 @@ public class HumanPlayerTest {
 
     @Test
     public void repromptPlayerWhenTheySpecifyANonNumericInputForNextMove() {
-        when(prompt.readsInput()).thenReturn("hello").thenReturn(VACANT_CELL.toString());
+        when(prompt.readsInput()).thenReturn("non-numeric-entry").thenReturn(VACANT_CELL.toString());
         when(grid.isEmptyAt(VACANT_CELL)).thenReturn(true);
 
         human.nextMoveOn(grid);

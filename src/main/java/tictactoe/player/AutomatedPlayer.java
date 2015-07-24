@@ -38,14 +38,14 @@ public class AutomatedPlayer implements Player {
     public int nextMoveOn(Grid grid) {
         boolean isMaxPlayer = true;
 
-        Score move = minimax(grid,
+        Score bestMove = minimax(grid,
                 getNumberOfVacantCells(grid.getCells()),
                 ALPHA,
                 BETA,
                 isMaxPlayer);
 
-        prompt.display(symbol, move.getPosition());
-        return move.getPosition();
+        prompt.display(symbol, bestMove.getPosition());
+        return bestMove.getPosition();
     }
 
     @Override

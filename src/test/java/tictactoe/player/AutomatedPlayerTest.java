@@ -59,7 +59,6 @@ public class AutomatedPlayerTest {
 
     @Test
     public void takesWinningMoveInLeftColumn() {
-
         Grid grid = createGridWith(
                 X, O, O,
                 X, VACANT, VACANT,
@@ -70,7 +69,6 @@ public class AutomatedPlayerTest {
 
     @Test
     public void takesWinningMoveInMiddleColumn() {
-
         Grid grid = createGridWith(
                 O, VACANT, VACANT,
                 VACANT, X, O,
@@ -81,7 +79,6 @@ public class AutomatedPlayerTest {
 
     @Test
     public void takesWinningMoveInRightColumn() {
-
         Grid grid = createGridWith(
                 VACANT, VACANT, X,
                 VACANT, O, VACANT,
@@ -92,7 +89,6 @@ public class AutomatedPlayerTest {
 
     @Test
     public void takesWinningMoveInForwardDiagonal() {
-
         Grid grid = createGridWith(
                 VACANT, O, X,
                 VACANT, VACANT, VACANT,
@@ -103,7 +99,6 @@ public class AutomatedPlayerTest {
 
     @Test
     public void takesWinningMoveInBackwardsDiagonal() {
-
         Grid grid = createGridWith(
                 VACANT, O, VACANT,
                 VACANT, X, O,
@@ -114,7 +109,6 @@ public class AutomatedPlayerTest {
 
     @Test
     public void blocksOpponentsWinInLeftVerticalColumn() {
-
         Grid grid = createGridWith(
                 O, VACANT, VACANT,
                 VACANT, VACANT, X,
@@ -125,8 +119,6 @@ public class AutomatedPlayerTest {
 
     @Test
     public void blocksOpponentsWinInMiddleVerticalColumn() {
-
-
         Grid grid = createGridWith(
                 X, VACANT, VACANT,
                 VACANT, O, X,
@@ -147,7 +139,6 @@ public class AutomatedPlayerTest {
 
     @Test
     public void blocksOpponentsWinInTopRow() {
-
         Grid grid = createGridWith(
                 O, VACANT, O,
                 X, VACANT, VACANT,
@@ -158,8 +149,6 @@ public class AutomatedPlayerTest {
 
     @Test
     public void blocksOpponentsWinInMiddleRow() {
-
-
         Grid grid = createGridWith(
                 X, VACANT, VACANT,
                 O, O, VACANT,
@@ -170,7 +159,6 @@ public class AutomatedPlayerTest {
 
     @Test
     public void blocksOpponentsMoveInBottomRow() {
-
         Grid grid = createGridWith(
                 VACANT, VACANT, X,
                 VACANT, VACANT, X,
@@ -181,7 +169,6 @@ public class AutomatedPlayerTest {
 
     @Test
     public void blocksOpponentsWinInBackwardsDiagonal() {
-
         Grid grid = createGridWith(
                 O, X, X,
                 VACANT, VACANT, VACANT,

@@ -78,7 +78,6 @@ public class CommandLinePromptTest {
 
     @Test
     public void displaysGrid() {
-
         Grid gridForDisplay = createGridWith(
                 X, VACANT, X,
                 X, VACANT, VACANT,

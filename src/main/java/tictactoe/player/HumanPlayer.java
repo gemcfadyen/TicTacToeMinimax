@@ -40,6 +40,13 @@ public class HumanPlayer implements Player {
         return Integer.valueOf(move);
     }
 
+    private InputValidator[] getInputValidators(Grid grid) {
+        return new InputValidator[] {
+                new IsDigit(),
+                new IsInGridBoundary(),
+                new IsVacantCell(grid)};
+    }
+
     private boolean valid(String specifiedMove, InputValidator[] validators) {
         for (InputValidator validator : validators) {
             if (!validator.isValid(specifiedMove)) {
@@ -48,12 +55,5 @@ public class HumanPlayer implements Player {
         }
 
         return true;
-    }
-
-    private InputValidator[] getInputValidators(Grid grid) {
-        return new InputValidator[] {
-                    new IsDigit(),
-                    new IsInGridBoundary(),
-                    new IsVacantCell(grid)};
     }
 }

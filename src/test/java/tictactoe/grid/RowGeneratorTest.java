@@ -13,6 +13,7 @@ import static org.hamcrest.Matchers.is;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.VACANT;
 import static tictactoe.Symbol.X;
+import static tictactoe.grid.GridFactory.createGridWith;
 import static tictactoe.grid.RowGenerator.generateRowsForAllDirectionsFrom;
 
 public class RowGeneratorTest {
@@ -20,7 +21,7 @@ public class RowGeneratorTest {
 
     @Before
     public void setup() {
-        Grid grid = GridFactory.createGridWith(
+        Grid grid = createGridWith(
                 X, O, X,
                 VACANT, O, VACANT,
                 X, VACANT, O);
