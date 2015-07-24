@@ -30,7 +30,7 @@ _Alternatively you can invoke the main method of the Game class in your IDE._
 
 ![alt tag](/images/1_PlayerAGoesFirst.PNG)
 
-- When prompted to make a move, enter the number of the cell you wish you place your symbol. For example, to place your symbol in the centre cell, enter '4' at the prompt as shown below:
+- When prompted to make a move, enter the number of the cell you wish you place your symbol. For example, to place your symbol in the cell under the X, enter '4' at the prompt as shown below:
 
 ![alt tag](/images/2_TakingYourGo.PNG)
 
