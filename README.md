@@ -11,7 +11,7 @@ Create a game that allows a human to play TicTacToe against an unbeatable comput
 # To Run
 - clone the repository:
 ```
-git clone git@github.com:gemcfadyen/TicTacToe.git
+git clone git@github.com:gemcfadyen/TicTacToeMinimax.git
 ```
 
 - Using the gradle wrapper invoke the program:
