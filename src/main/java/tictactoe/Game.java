@@ -59,7 +59,7 @@ public class Game {
         prompt.display(grid.getCells());
 
         while (vacantCellsOn(grid)) {
-            grid.update(playersMove(currentPlayerIndex), playersSymbol(currentPlayerIndex));
+            updateGridWithPlayersMove(currentPlayerIndex);
             prompt.display(grid.getCells());
 
             if (isWinningMove()) {
@@ -90,6 +90,10 @@ public class Game {
     private boolean vacantCellsOn(Grid grid) {
         Iterable<Cell> vacantCells = filter(grid.getCells(), cell -> cell.getSymbol() == VACANT);
         return size(vacantCells) > 0;
+    }
+
+    private void updateGridWithPlayersMove(int currentPlayerIndex) {
+        grid.update(playersMove(currentPlayerIndex), playersSymbol(currentPlayerIndex));
     }
 
     private int playersMove(int currentPlayerIndex) {
